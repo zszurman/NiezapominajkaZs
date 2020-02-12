@@ -65,19 +65,19 @@ class Nota(
 
 
     private fun obAlat(): String? = when (obliczLataDoTerminu()) {
-        0 -> " lat, "
-        1 -> " rok, "
-        2 -> " lata, "
-        3 -> " lata, "
-        4 -> " lata, "
-        else -> " lat, "
+        0 -> " lat i "
+        1 -> " rok i "
+        2 -> " lata i "
+        3 -> " lata i "
+        4 -> " lata i "
+        else -> " lat i "
     }
 
     private fun obDay(): String? {
 
         return when (obliczDDoTerminu()) {
-            1 -> " dzień)"
-            else -> " dni)"
+            1 -> " dzień"
+            else -> " dni"
         }
     }
 
@@ -109,16 +109,16 @@ class Nota(
         val kolorek: Int
         val xx = obliczDDoTerminu()
 
-        kolorek = if ((30 > xx) && (xx > 14) && (xx == 0))
+        kolorek = if ((8 > xx) && (xx > 2))
             Color.rgb(0, 0, 255)
-        else if ((14 >= xx) && (xx > 7) && (xx == 0))
+        else if (xx==2)
             Color.rgb(150, 0, 255)
-        else if ((7 >= xx) && (xx > 1) && (xx == 0))
+        else if (xx==1)
             Color.rgb(200, 0, 50)
-        else if ((1 >= xx) && (xx >= 0) && (xx == 0))
+        else if (xx==0)
             Color.rgb(255, 0, 0)
-        else if (xx < 0)
-            Color.rgb(0, 255, 100)
+        else if (System.currentTimeMillis() > obliczMillis() )
+            Color.rgb(93, 98, 111)
         else
             Color.rgb(0, 0, 0)
         return kolorek
@@ -126,16 +126,18 @@ class Nota(
     }
 
     fun terminString(): String {
-        val x: String = if (m > 8) d.toString() + "." + (m + 1).toString() + "." + r.toString() + " ("
-        else d.toString() + ".0" + (m + 1).toString() + "." + r.toString() + " ("
+        val x: String = if (m > 8) d.toString() + "." + (m + 1).toString() + "." + r.toString() + "  "
+        else d.toString() + ".0" + (m + 1).toString() + "." + r.toString() + "  "
 
 
 
         return when {
-            obliczLataDoTerminu()==0 && obliczDDoTerminu()==0 -> x + obliczDDoTerminu().toString() + obDay()
-            System.currentTimeMillis() > obliczMillis() -> x + "Było minęło)"
-            obliczLataDoTerminu() > 0 -> x + obliczLataDoTerminu().toString() + obAlat() + obliczDDoTerminu() + obDay()
-            obliczLataDoTerminu()==0 -> x + obliczDDoTerminu().toString() + obDay()
+            obliczLataDoTerminu()==0 && obliczDDoTerminu()==0 -> x + "dzisiaj"
+            obliczLataDoTerminu()==0 && obliczDDoTerminu()==1 -> x + "jutro"
+            obliczLataDoTerminu()==0 && obliczDDoTerminu()==2 -> x + "pojutrze"
+            System.currentTimeMillis() > obliczMillis() -> x + "było minęło"
+            obliczLataDoTerminu() > 0 -> x +"za " + obliczLataDoTerminu().toString() + obAlat() + obliczDDoTerminu() + obDay()
+            obliczLataDoTerminu()==0 -> x + "za" + obliczDDoTerminu().toString() + obDay()
             else -> ""
         }
 

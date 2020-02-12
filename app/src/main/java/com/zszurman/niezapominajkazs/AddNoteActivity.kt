@@ -22,6 +22,8 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         var addR: Int = 2020
         var addM: Int = 1
         var addD: Int = 26
+        var bar:String = "Aktualizacja danych"
+        var bat:String = "Aktualizuj"
     }
 
     private var c = Calendar.getInstance()
@@ -32,8 +34,6 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
 
-
-
         nrEt.text = addId.toString()
         tytEt.setText(addTyt)
         notEt.setText(addNot)
@@ -42,19 +42,21 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         mEt.text = addM.toString()
         dEt.text = addD.toString()
         dataEt.text = makeText()
-        okBtn.text = "Aktualizuj"
+        okBtn.text = bat
         nokBtn.text = "Powróć"
 
         val mActionBar = supportActionBar
         if (mActionBar != null) {
 
-            mActionBar.subtitle = "Aktualizacja danych"
+            mActionBar.subtitle = bar
         }
         dateBtn.setOnClickListener {
             val dataPiker = TimePiker()
             dataPiker.show(supportFragmentManager, "date picker")
         }
         nokBtn.setOnClickListener {
+            bar = "Aktualizacja danych"
+            bat = "Aktualizuj"
             finish()
         }
         okBtn.setOnClickListener {

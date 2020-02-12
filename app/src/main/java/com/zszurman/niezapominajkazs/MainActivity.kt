@@ -21,6 +21,8 @@ import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addM
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addNot
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bar
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -44,15 +46,11 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        // startBazaReset()
-
-
     }
 
     override fun onResume() {
         super.onResume()
-        initRecyclerView(startBaza("%"))
+        initRecyclerView(startBazaNajblizsze("%"))
         setActionBar()
         setPref()
     }
@@ -223,6 +221,9 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     addR = c[Calendar.YEAR]
                     addM = c[Calendar.MONTH]
                     addD = c[Calendar.DAY_OF_MONTH]
+                    bar = "Dodaj wydarzenie"
+                    bat = "Dodaj"
+
                     val intent = Intent(applicationContext, AddNoteActivity::class.java)
                     startActivity(intent)
 

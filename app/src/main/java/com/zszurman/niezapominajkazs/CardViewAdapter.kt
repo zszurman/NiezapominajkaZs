@@ -20,11 +20,11 @@ import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addM
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addNot
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bar
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bat
 import com.zszurman.niezapominajkazs.MainActivity.Companion.list
 import com.zszurman.niezapominajkazs.MainActivity.Companion.projections
-
 import kotlinx.android.synthetic.main.row.view.*
-import kotlin.collections.ArrayList
 
 class CardViewAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -82,22 +82,25 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
         mies.text = nota.m.toString()
         dzien.text = nota.d.toString()
         data.text = nota.terminString()
+        data.setTextColor(nota.kolor())
         addR = nota.r
         addM = nota.m
         addD = nota.d
-
+        if (adr.text.isNullOrEmpty()) place.visibility = View.INVISIBLE
+        else place.visibility = View.VISIBLE
     }
 
     init {
 
-        place.setOnClickListener {
+            place.setOnClickListener {
 
-            val geoUri =
-                "geo:50,20?q=" + adr.text.toString()
-            val geo = Uri.parse(geoUri)
-            val mapIntent = Intent(Intent.ACTION_VIEW, geo)
-            holder.context.startActivity(mapIntent)
-        }
+                val geoUri =
+                    "geo:50,20?q=" + adr.text.toString()
+                val geo = Uri.parse(geoUri)
+                val mapIntent = Intent(Intent.ACTION_VIEW, geo)
+                holder.context.startActivity(mapIntent)
+            }
+
 
         edit.setOnClickListener {
 
@@ -108,12 +111,13 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
             addR = rok.text.toString().toInt()
             addM = mies.text.toString().toInt()
             addD = dzien.text.toString().toInt()
+            bar = "Aktualizacja danych"
+            bat = "Aktualizuj"
             val intent = Intent(context, AddNoteActivity::class.java)
             startActivity(context, intent, bundleOf())
         }
 
         delete.setOnClickListener {
-
 
             val id = num.text.toString().toInt()
 
@@ -147,6 +151,10 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
                         list.add(x)
                     } while (cursor.moveToNext())
                 }
+
+                list.sortWith(Comparator { o1, o2 ->
+                    o1.obliczMillis().compareTo(o2.obliczMillis())
+                })
 
                 Toast.makeText(context, "Wydarzenie usunięto", Toast.LENGTH_SHORT)
                     .show()

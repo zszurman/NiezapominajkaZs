@@ -36,11 +36,12 @@
             android:textSize="20sp"
             android:textStyle="italic" />
 
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
+            android:layout_margin="2dp"
             android:orientation="horizontal">
 
 
@@ -50,15 +51,23 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
+                android:layout_marginEnd="2dp"
                 android:textStyle="italic" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/colorPrimaryDark" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:gravity="end"
             android:orientation="horizontal">
 
@@ -99,8 +108,8 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_place"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_action_place" />
 
             <ImageButton
                 android:id="@+id/editBtn"
@@ -108,16 +117,16 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_edit"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_action_edit" />
 
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_delete"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_action_delete" />
         </LinearLayout>
 
 
