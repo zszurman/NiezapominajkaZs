@@ -7,18 +7,22 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addAdr
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addD
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addM
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addNot
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
+import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -212,7 +216,13 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         if (item != null) {
             when (item.itemId) {
                 R.id.addNote -> {
-
+                    addTyt = ""
+                    addNot = ""
+                    addAdr = ""
+                    val c = Calendar.getInstance()
+                    addR = c[Calendar.YEAR]
+                    addM = c[Calendar.MONTH]
+                    addD = c[Calendar.DAY_OF_MONTH]
                     val intent = Intent(applicationContext, AddNoteActivity::class.java)
                     startActivity(intent)
 
