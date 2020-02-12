@@ -2,6 +2,7 @@ package com.zszurman.niezapominajkazs
 
 
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
@@ -27,6 +28,7 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
     private var c = Calendar.getInstance()
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
@@ -36,13 +38,15 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
             dataPiker.show(supportFragmentManager, "date picker")
         }
 
-        nrEt.setText(addId.toString())
+        nrEt.text = addId.toString()
         tytEt.setText(addTyt)
         notEt.setText(addNot)
         adrEt.setText(addAdr)
-        rEt.setText(addR.toString())
-        mEt.setText(addM.toString())
-        dEt.setText(addD.toString())
+        rEt.text = addR.toString()
+        mEt.text = addM.toString()
+        dEt.text = addD.toString()
+        dataEt.text = makeText()
+        okBtn.text = "Aktualizuj"
 
         val mActionBar = supportActionBar
         if (mActionBar != null) {
@@ -110,9 +114,19 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         addM = month
         addD= dayOfMonth
 
-        rEt.setText(addR.toString())
-        mEt.setText(addM.toString())
-        dEt.setText(addD.toString())
+        rEt.text = addR.toString()
+        mEt.text = addM.toString()
+        dEt.text = addD.toString()
+        dataEt.text = makeText()
+
+    }
+
+    private fun makeText():String{
+
+        var x1 = """$addD.0${addM+1}.$addR"""
+        if (addM>8) x1 = """$addD.$addM.$addR"""
+        return x1
+
     }
 
 }

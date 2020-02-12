@@ -307,5 +307,13 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         preferencja.setMin(minuta)
 
     }
+
+    private fun makeText():String{
+
+        var x1 = """$addD.0$addM.$addR"""
+        if (addM>8) x1 = """$addD.$addM.$addR"""
+        return x1
+
+    }
 }
 

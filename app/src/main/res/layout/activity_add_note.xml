@@ -3,99 +3,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context=".AddNoteActivity">
 
-    <EditText
+    <TextView
         android:id="@+id/nrEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="number"
-        android:text="0" />
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
     <EditText
         android:id="@+id/tytEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Tytuł" />
+        android:autofillHints=""
+        android:hint="@string/tytu"
+        android:inputType="textMultiLine"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/notEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Nota" />
+        android:autofillHints=""
+        android:hint="@string/notatka"
+        android:inputType="textMultiLine"
+        android:textSize="18sp"
+        android:textStyle="italic" />
 
     <EditText
         android:id="@+id/adrEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Adres" />
+        android:autofillHints=""
+        android:hint="@string/adres"
+        android:inputType="textMultiLine"
+        android:textSize="18sp"
+        android:textStyle="italic" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
+        <TextView
+            android:id="@+id/dataEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/rEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number"
-            android:text="2020" />
+            android:visibility="invisible" />
 
-        <EditText
+        <TextView
             android:id="@+id/mEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number"
-            android:text="2" />
+            android:visibility="invisible" />
 
-        <EditText
+        <TextView
             android:id="@+id/dEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number"
-            android:text="1" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/okBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OK" />
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginEnd="10dp"/>
 
         <ImageButton
             android:id="@+id/dateBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@null"
+            android:contentDescription="@string/todo"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_date" />
 
