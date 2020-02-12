@@ -46,7 +46,7 @@ class Nota(
     var m: Int = 0,
     var d: Int = 1
 ) {
-    fun obliczDDoTerminu(): Int {
+    private fun obliczDDoTerminu(): Int {
 
         val teraz = Calendar.getInstance()
         val dziDY = teraz[Calendar.DAY_OF_YEAR]
@@ -64,29 +64,24 @@ class Nota(
     }
 
 
-    fun obAlat(): String? {
-
-        val polskiM = when (obliczLataDoTerminu()) {
-            0 -> " lat, "
-            1 -> " rok, "
-            2 -> " lata, "
-            3 -> " lata, "
-            4 -> " lata, "
-            else -> " lat, "
-        }
-        return polskiM
+    private fun obAlat(): String? = when (obliczLataDoTerminu()) {
+        0 -> " lat, "
+        1 -> " rok, "
+        2 -> " lata, "
+        3 -> " lata, "
+        4 -> " lata, "
+        else -> " lat, "
     }
 
-    fun obDay(): String? {
+    private fun obDay(): String? {
 
-        val polskiDay = when (obliczDDoTerminu()) {
+        return when (obliczDDoTerminu()) {
             1 -> " dzień)"
             else -> " dni)"
         }
-        return polskiDay
     }
 
-    fun obliczLataDoTerminu(): Int {
+    private fun obliczLataDoTerminu(): Int {
 
         val teraz = Calendar.getInstance()
         val dziDY = teraz[Calendar.DAY_OF_YEAR]

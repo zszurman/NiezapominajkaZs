@@ -2,16 +2,14 @@ package com.zszurman.niezapominajkazs
 
 
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_note.*
-import kotlinx.android.synthetic.main.row.*
 import java.util.*
 
 class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {

@@ -6,28 +6,28 @@ import android.content.Context
 
 class Preferencje(context: Context) {
 
-    private val PREF_NAME = "Preferencja"
-    private val PREF_GODZ = "Godzina"
-    private val PREF_MIN = "Minuta"
+    private val prefName = "Preferencja"
+    private val prefGodz = "Godzina"
+    private val prefMin = "Minuta"
 
-    private val preferencja = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    private val preferencja = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
 
     fun getGodz(): Int {
-        return preferencja.getInt(PREF_GODZ, 0)
+        return preferencja.getInt(prefGodz, 0)
     }
     fun setGodz(godzina: Int) {
         val editor = preferencja.edit()
-        editor.putInt(PREF_GODZ, godzina)
+        editor.putInt(prefGodz, godzina)
         editor.apply()
     }
 
     fun getMin(): Int {
-        return preferencja.getInt(PREF_MIN, 0)
+        return preferencja.getInt(prefMin, 0)
     }
     fun setMin(minuta: Int) {
         val editor = preferencja.edit()
-        editor.putInt(PREF_MIN, minuta)
+        editor.putInt(prefMin, minuta)
         editor.apply()
     }
 }
