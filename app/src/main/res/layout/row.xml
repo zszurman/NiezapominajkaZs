@@ -4,21 +4,18 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
-    app:cardUseCompatPadding="true"
-    android:id="@+id/cardViewRow">
+    app:cardUseCompatPadding="true">
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@color/colorTlo"
-    android:orientation="vertical">
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorTlo"
+        android:orientation="vertical">
 
 
         <TextView
@@ -26,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Tytuł"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -36,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Notatka"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="italic" />
@@ -53,7 +48,6 @@
                 android:id="@+id/adresTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Adres"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="italic" />
@@ -70,44 +64,23 @@
 
             <TextView
                 android:id="@+id/nrTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:text="2020"
-                android:textColor="@color/colorPrimary"
-                android:textSize="8sp"
-                android:textStyle="italic" />
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
             <TextView
                 android:id="@+id/rTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:text="25"
-                android:textColor="@color/colorPrimary"
-                android:textSize="8sp"
-                android:textStyle="italic" />
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
             <TextView
                 android:id="@+id/mTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:text="25"
-                android:textColor="@color/colorPrimary"
-                android:textSize="8sp"
-                android:textStyle="italic" />
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
             <TextView
                 android:id="@+id/dTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:text="25"
-                android:textColor="@color/colorPrimary"
-                android:textSize="8sp"
-                android:textStyle="italic" />
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
 
 
             <TextView
@@ -116,7 +89,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
-                android:text="25"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="italic" />
@@ -127,7 +99,8 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_place" />
+                android:src="@drawable/ic_action_place"
+                android:contentDescription="@string/todo" />
 
             <ImageButton
                 android:id="@+id/editBtn"
@@ -135,18 +108,18 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_edit" />
+                android:src="@drawable/ic_action_edit"
+                android:contentDescription="@string/todo" />
 
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@null"
-                android:src="@drawable/ic_action_delete" />
+                android:src="@drawable/ic_action_delete"
+                android:contentDescription="@string/todo" />
         </LinearLayout>
 
 
-
-
-</LinearLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

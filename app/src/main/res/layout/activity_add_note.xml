@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:background="@color/colorTlo"
     android:orientation="vertical"
     tools:context=".AddNoteActivity">
 
@@ -19,6 +20,7 @@
         android:autofillHints=""
         android:hint="@string/tytu"
         android:inputType="textMultiLine"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -29,6 +31,7 @@
         android:autofillHints=""
         android:hint="@string/notatka"
         android:inputType="textMultiLine"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="italic" />
 
@@ -39,6 +42,7 @@
         android:autofillHints=""
         android:hint="@string/adres"
         android:inputType="textMultiLine"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="italic" />
 
@@ -51,6 +55,7 @@
             android:id="@+id/dataEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
         <TextView
@@ -76,23 +81,35 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/okBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginEnd="10dp"/>
 
         <ImageButton
             android:id="@+id/dateBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:contentDescription="@string/todo"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_date" />
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="2dp"
+            android:background="@color/colorRecykiel" />
+
+
+        <Button
+            android:id="@+id/nokBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorRecykiel" />
 
     </LinearLayout>
 

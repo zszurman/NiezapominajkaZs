@@ -1,7 +1,6 @@
 package com.zszurman.niezapominajkazs
 
 
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.ContentValues
@@ -33,10 +32,7 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
 
-        dateBtn.setOnClickListener {
-            val dataPiker = TimePiker()
-            dataPiker.show(supportFragmentManager, "date picker")
-        }
+
 
         nrEt.text = addId.toString()
         tytEt.setText(addTyt)
@@ -47,14 +43,20 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         dEt.text = addD.toString()
         dataEt.text = makeText()
         okBtn.text = "Aktualizuj"
+        nokBtn.text = "Powróć"
 
         val mActionBar = supportActionBar
         if (mActionBar != null) {
 
             mActionBar.subtitle = "Aktualizacja danych"
         }
-
-
+        dateBtn.setOnClickListener {
+            val dataPiker = TimePiker()
+            dataPiker.show(supportFragmentManager, "date picker")
+        }
+        nokBtn.setOnClickListener {
+            finish()
+        }
         okBtn.setOnClickListener {
 
             addTyt = tytEt.text.toString()
@@ -112,7 +114,7 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         addR = year
         addM = month
-        addD= dayOfMonth
+        addD = dayOfMonth
 
         rEt.text = addR.toString()
         mEt.text = addM.toString()
@@ -121,10 +123,10 @@ class AddNoteActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener 
 
     }
 
-    private fun makeText():String{
+    private fun makeText(): String {
 
-        var x1 = """$addD.0${addM+1}.$addR"""
-        if (addM>8) x1 = """$addD.$addM.$addR"""
+        var x1 = """$addD.0${addM + 1}.$addR"""
+        if (addM > 8) x1 = """$addD.$addM.$addR"""
         return x1
 
     }

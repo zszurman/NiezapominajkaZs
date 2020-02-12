@@ -2,6 +2,7 @@
     <string name="app_name">Niezapominajka</string>
     <string name="tytu">Tytuł</string>
     <string name="notatka">Notatka</string>
-    <string name="adres">Adres</string>
     <string name="todo">TODO</string>
+    <string name="adres">address</string>
+
 </resources>
