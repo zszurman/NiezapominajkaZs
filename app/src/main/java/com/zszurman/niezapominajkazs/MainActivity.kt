@@ -1,9 +1,6 @@
 package com.zszurman.niezapominajkazs
 
-import android.app.AlertDialog
-import android.app.SearchManager
-import android.app.TimePickerDialog
-import android.content.ContentValues
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -30,6 +27,9 @@ import java.util.*
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var alarmIntent: PendingIntent
+
     companion object {
         val projections = arrayOf(
             TableInfo.COL_ID, TableInfo.COL_TYT, TableInfo.COL_NOT, TableInfo.COL_ADR,
@@ -41,6 +41,38 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         var minuta: Int = 30
         var adapterNota: CardViewAdapter? = null
         var dupa: Int = 0
+        fun findFirst(): Int {
+
+            var record = list[0].obliczDoAlarmu()
+            fun min(a: Int, b: Int): Int = if (a < b) a else b
+            var number = 0
+            while (number < (list.size - 1)) {
+                record = min(record, list[number + 1].obliczDDoTerminu())
+                number++
+            }
+
+            return record
+
+        }
+
+        fun timeM():Long{
+
+
+            var yy:Long = list[0].nTime(godzina, minuta)
+            var number=0
+            while (number < (list.size - 1)) {
+                if (list[number].obliczDoAlarmu() == findFirst()){
+                    yy = list[number].nTime(godzina,minuta)
+                }
+                number++
+            }
+
+            return yy
+
+        }
+
+
+
     }
 
 
@@ -50,19 +82,14 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
         if (dupa == 1) finish()
         dupa = 0
-
     }
 
     override fun onResume() {
         super.onResume()
-        initRecyclerView(startBazaNajblizsze("%"))
-        setActionBar()
+        initRecyclerView(startBazaNajblizsze())
+        setActionBar(total)
         setPref()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setActionBar()
+        initAlarm()
     }
 
     private fun initRecyclerView(list: ArrayList<Nota>) {
@@ -75,7 +102,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         adapterNota?.notifyDataSetChanged()
     }
 
-    private fun setActionBar() {
+    private fun setActionBar(total: Int) {
 
         val mActionBar = supportActionBar
 
@@ -100,6 +127,22 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         val preferencja = Preferencje(this)
         godzina = preferencja.getGodz()
         minuta = preferencja.getMin()
+    }
+
+    private fun initAlarm() {
+
+        if (list.size > 0) {
+            timeM()
+            findFirst()
+            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intentZs = Intent(applicationContext, AlarmReceiver::class.java)
+            alarmIntent = PendingIntent.getBroadcast(applicationContext, 0, intentZs, 0)
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                timeM(),
+                alarmIntent
+            )
+        }
     }
 
     private fun startBaza(title: String): ArrayList<Nota> {
@@ -137,45 +180,12 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     }
 
-    private fun startBazaNajblizsze(title: String): ArrayList<Nota> {
-
-        val dbHelper = DbHelper(this)
-
-        fun initRecord(cursor: Cursor) {
-            val nr = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_ID))
-            val tyt = cursor.getString(cursor.getColumnIndex(TableInfo.COL_TYT))
-            val not = cursor.getString(cursor.getColumnIndex(TableInfo.COL_NOT))
-            val adr = cursor.getString(cursor.getColumnIndex(TableInfo.COL_ADR))
-            val r = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_R))
-            val m = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_M))
-            val d = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_D))
-            val x = Nota(nr, tyt, not, adr, r, m, d)
-            list.add(x)
-        }
-
-        val selectionArgs = arrayOf(title)
-        val cursor = dbHelper.qery(
-            projections,
-            TableInfo.COL_TYT + " like ?",
-            selectionArgs,
-            TableInfo.COL_TYT
-        )
-        list.clear()
-
-        if (cursor.moveToFirst()) {
-            do {
-                initRecord(cursor)
-            } while (cursor.moveToNext())
-        }
-
-        list.sortWith(Comparator { o1, o2 ->
+    private fun startBazaNajblizsze(): ArrayList<Nota> {
+        startBaza("%").sortWith(Comparator { o1, o2 ->
             o1.obliczMillis().compareTo(o2.obliczMillis())
         })
 
-        total = list.size
-
         return list
-
     }
 
     private fun startBazaReset() {
@@ -183,19 +193,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         val dbHelper = DbHelper(this)
         dbHelper.deleteData()
 
-        var id = 0
-        while (id < Baza.utworzLista().size) {
-            val values = ContentValues()
-            values.put(TableInfo.COL_ID, Baza.utworzLista()[id].nr)
-            values.put(TableInfo.COL_TYT, Baza.utworzLista()[id].tytul)
-            values.put(TableInfo.COL_NOT, Baza.utworzLista()[id].not)
-            values.put(TableInfo.COL_ADR, Baza.utworzLista()[id].adres)
-            values.put(TableInfo.COL_R, Baza.utworzLista()[id].r)
-            values.put(TableInfo.COL_M, Baza.utworzLista()[id].m)
-            values.put(TableInfo.COL_D, Baza.utworzLista()[id].d)
-            dbHelper.insert(values)
-            id++
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -252,7 +249,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     private fun showSortDialog() {
 
-
         val czas = if (minuta < 10) ("$godzina:0$minuta alarm")
         else "$godzina:$minuta alarm"
 
@@ -264,7 +260,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         mBilder.setSingleChoiceItems(sortOptions, -1) { dialogInterface, i ->
             if (i == 0) {
                 Toast.makeText(this, "Na osi czasu", Toast.LENGTH_SHORT).show()
-                initRecyclerView(startBazaNajblizsze("%"))
+                initRecyclerView(startBazaNajblizsze())
             }
             if (i == 1) {
                 Toast.makeText(this, "Alfabetycznie", Toast.LENGTH_SHORT).show()
@@ -322,7 +318,5 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         preferencja.setMin(minuta)
 
     }
-
-
 }
 

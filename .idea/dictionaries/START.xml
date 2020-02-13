@@ -2,15 +2,19 @@
   <dictionary name="START">
     <words>
       <w>aktualizuj</w>
+      <w>alarmu</w>
       <w>dodaj</w>
       <w>dzisiaj</w>
       <w>jutro</w>
       <w>lata</w>
       <w>pojutrze</w>
+      <w>powiadom</w>
+      <w>powiadomienia</w>
       <w>powróć</w>
       <w>recykiel</w>
       <w>tytu</w>
       <w>tytuł</w>
+      <w>wydarzeniach</w>
     </words>
   </dictionary>
 </component>
