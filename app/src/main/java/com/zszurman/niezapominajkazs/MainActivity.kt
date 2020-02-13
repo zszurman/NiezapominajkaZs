@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             TableInfo.COL_ID, TableInfo.COL_TYT, TableInfo.COL_NOT, TableInfo.COL_ADR,
             TableInfo.COL_R, TableInfo.COL_M, TableInfo.COL_D
         )
-        var list: ArrayList<Nota> = Baza.utworzLista()
+        var list: ArrayList<Nota>  = Baza.utworzLista()
         var total: Int = list.size
-        var godzina: Int = 12
-        var minuta: Int = 30
+        var godzina: Int = 8
+        var minuta: Int = 0
         var adapterNota: CardViewAdapter? = null
         var dupa: Int = 0
         fun findFirst(): Int {
@@ -46,17 +46,17 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             var record = list[0].obliczDoAlarmu()
             fun min(a: Int, b: Int): Int = if (a < b) a else b
             var number = 0
+
             while (number < (list.size - 1)) {
-                record = min(record, list[number + 1].obliczDDoTerminu())
+                record = min(record, list[number + 1].obliczDoAlarmu())
+
                 number++
             }
 
             return record
 
         }
-
         fun timeM():Long{
-
 
             var yy:Long = list[0].nTime(godzina, minuta)
             var number=0
@@ -70,11 +70,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             return yy
 
         }
-
-
-
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +85,11 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         initRecyclerView(startBazaNajblizsze())
         setActionBar(total)
         setPref()
+        initAlarm()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         initAlarm()
     }
 
@@ -131,7 +132,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     private fun initAlarm() {
 
-        if (list.size > 0) {
+        if (! list.isNullOrEmpty()) {
             timeM()
             findFirst()
             alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -233,7 +234,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     bar = "Dodaj wydarzenie"
                     bat = "Dodaj"
 
-
                     finish()
                     val intent = Intent(applicationContext, AddNoteActivity::class.java)
                     startActivity(intent)
@@ -296,6 +296,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
                 val timePiker = AlarmPiker()
                 timePiker.show(supportFragmentManager, "alarm piker")
+                initAlarm()
 
             }
 

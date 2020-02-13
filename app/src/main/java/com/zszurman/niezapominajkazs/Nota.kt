@@ -7,32 +7,9 @@ import java.util.*
 object Baza {
     fun utworzLista(): ArrayList<Nota> {
         val lista = ArrayList<Nota>()
-        lista.add(
-            Nota(
-                0,
-                "Wycieczka",
-                "wyjazd do Jaworza",
-                "44-352 Czyżowice",
-                2020,
-                5,
-                25
-            )
-        )
-        lista.add(
-            Nota(
-                1,
-                "Wujazd",
-                "dupa",
-                "44-352 Czyżowice",
-                2021,
-                5,
-                25
-            )
-        )
+        lista.add(Nota(0, "x", "x", "x", 2020, 5, 25))
 
         return lista
-
-
     }
 
 }
@@ -71,53 +48,6 @@ class Nota(
         date.set(Calendar.YEAR, r)
 
         return date.timeInMillis
-    }
-
-    fun obliczDDoTerminu(): Int {
-
-        val teraz = Calendar.getInstance()
-        val dziDY = teraz[Calendar.DAY_OF_YEAR]
-        val dziY = teraz[Calendar.YEAR]
-        val ostatni = Calendar.getInstance()
-        ostatni[Calendar.MONTH] = 11
-        ostatni[Calendar.DAY_OF_MONTH] = 31
-        val ostDY = ostatni[Calendar.DAY_OF_YEAR]
-        val umowa = Calendar.getInstance()
-        umowa[Calendar.MONTH] = m
-        umowa[Calendar.DAY_OF_MONTH] = d
-        umowa[Calendar.YEAR] = r
-        val umowaDY = umowa[Calendar.DAY_OF_YEAR]
-        return if (r < dziY || r == dziY && dziDY > umowaDY) -100 else if (umowaDY < dziDY && r > dziY) umowaDY - dziDY + ostDY else umowaDY - dziDY
-    }
-
-    private fun obAlat(): String? = when (obliczLataDoTerminu()) {
-        0 -> " lat i "
-        1 -> " rok i "
-        2 -> " lata i "
-        3 -> " lata i "
-        4 -> " lata i "
-        else -> " lat i "
-    }
-
-    private fun obDay(): String? {
-
-        return when (obliczDDoTerminu()) {
-            1 -> " dzień"
-            else -> " dni"
-        }
-    }
-
-    fun obliczLataDoTerminu(): Int {
-
-        val teraz = Calendar.getInstance()
-        val dziDY = teraz[Calendar.DAY_OF_YEAR]
-        val dziY = teraz[Calendar.YEAR]
-        val umowa = Calendar.getInstance()
-        umowa[Calendar.MONTH] = m
-        umowa[Calendar.DAY_OF_MONTH] = d
-        umowa[Calendar.YEAR] = r
-        val umowaDY = umowa[Calendar.DAY_OF_YEAR]
-        return if (umowaDY >= dziDY) r - dziY else r - dziY - 1
     }
 
     fun obliczMillis(): Long {
@@ -168,6 +98,53 @@ class Nota(
         }
 
 
+    }
+
+    private fun obliczDDoTerminu(): Int {
+
+        val teraz = Calendar.getInstance()
+        val dziDY = teraz[Calendar.DAY_OF_YEAR]
+        val dziY = teraz[Calendar.YEAR]
+        val ostatni = Calendar.getInstance()
+        ostatni[Calendar.MONTH] = 11
+        ostatni[Calendar.DAY_OF_MONTH] = 31
+        val ostDY = ostatni[Calendar.DAY_OF_YEAR]
+        val umowa = Calendar.getInstance()
+        umowa[Calendar.MONTH] = m
+        umowa[Calendar.DAY_OF_MONTH] = d
+        umowa[Calendar.YEAR] = r
+        val umowaDY = umowa[Calendar.DAY_OF_YEAR]
+        return if (r < dziY || r == dziY && dziDY > umowaDY) -100 else if (umowaDY < dziDY && r > dziY) umowaDY - dziDY + ostDY else umowaDY - dziDY
+    }
+
+    private fun obAlat(): String? = when (obliczLataDoTerminu()) {
+        0 -> " lat i "
+        1 -> " rok i "
+        2 -> " lata i "
+        3 -> " lata i "
+        4 -> " lata i "
+        else -> " lat i "
+    }
+
+    private fun obDay(): String? {
+
+        return when (obliczDDoTerminu()) {
+            1 -> " dzień"
+            else -> " dni"
+        }
+    }
+
+    private fun obliczLataDoTerminu(): Int {
+
+        val teraz = Calendar.getInstance()
+        val dziDY = teraz[Calendar.DAY_OF_YEAR]
+        val dziY = teraz[Calendar.YEAR]
+        val umowa = Calendar.getInstance()
+        umowa[Calendar.MONTH] = m
+        umowa[Calendar.DAY_OF_MONTH] = d
+        umowa[Calendar.YEAR] = r
+        val umowaDY = umowa[Calendar.DAY_OF_YEAR]
+        return if (umowaDY >= dziDY) r - dziY else r - dziY - 1
     }
 
 }
