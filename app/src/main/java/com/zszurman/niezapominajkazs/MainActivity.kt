@@ -36,15 +36,20 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             TableInfo.COL_R, TableInfo.COL_M, TableInfo.COL_D
         )
         var list: ArrayList<Nota> = Baza.utworzLista()
+        var total: Int = list.size
         var godzina: Int = 12
         var minuta: Int = 30
         var adapterNota: CardViewAdapter? = null
+        var dupa: Int = 0
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (dupa == 1) finish()
+        dupa = 0
 
     }
 
@@ -53,6 +58,11 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         initRecyclerView(startBazaNajblizsze("%"))
         setActionBar()
         setPref()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setActionBar()
     }
 
     private fun initRecyclerView(list: ArrayList<Nota>) {
@@ -67,8 +77,8 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     private fun setActionBar() {
 
-        val total = list.size
         val mActionBar = supportActionBar
+
         if (mActionBar != null) {
             when (total) {
                 0 -> {
@@ -122,6 +132,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                 initRecord(cursor)
             } while (cursor.moveToNext())
         }
+        total = list.size
         return list
 
     }
@@ -161,7 +172,8 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             o1.obliczMillis().compareTo(o2.obliczMillis())
         })
 
-        setActionBar()
+        total = list.size
+
         return list
 
     }
@@ -224,6 +236,8 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     bar = "Dodaj wydarzenie"
                     bat = "Dodaj"
 
+
+                    finish()
                     val intent = Intent(applicationContext, AddNoteActivity::class.java)
                     startActivity(intent)
 
@@ -309,12 +323,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     }
 
-    private fun makeText():String{
 
-        var x1 = """$addD.0$addM.$addR"""
-        if (addM>8) x1 = """$addD.$addM.$addR"""
-        return x1
-
-    }
 }
 

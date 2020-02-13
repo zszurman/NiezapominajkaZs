@@ -1,7 +1,6 @@
 package com.zszurman.niezapominajkazs
 
 
-
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -92,14 +91,14 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
 
     init {
 
-            place.setOnClickListener {
+        place.setOnClickListener {
 
-                val geoUri =
-                    "geo:50,20?q=" + adr.text.toString()
-                val geo = Uri.parse(geoUri)
-                val mapIntent = Intent(Intent.ACTION_VIEW, geo)
-                holder.context.startActivity(mapIntent)
-            }
+            val geoUri =
+                "geo:50,20?q=" + adr.text.toString()
+            val geo = Uri.parse(geoUri)
+            val mapIntent = Intent(Intent.ACTION_VIEW, geo)
+            holder.context.startActivity(mapIntent)
+        }
 
 
         edit.setOnClickListener {
@@ -119,7 +118,9 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
 
         delete.setOnClickListener {
 
+
             val id = num.text.toString().toInt()
+
 
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Uwaga")
@@ -155,12 +156,16 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
                 list.sortWith(Comparator { o1, o2 ->
                     o1.obliczMillis().compareTo(o2.obliczMillis())
                 })
+                MainActivity.total = list.size
 
                 Toast.makeText(context, "Wydarzenie usunięto", Toast.LENGTH_SHORT)
                     .show()
 
                 MainActivity.adapterNota?.notifyDataSetChanged()
 
+                MainActivity.dupa = 1
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(context, intent, bundleOf())
 
             }
             builder.setNegativeButton("Nie") { _, _ ->
