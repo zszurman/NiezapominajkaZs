@@ -78,6 +78,14 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
         if (dupa == 1) finish()
         dupa = 0
+
+
+
+        initRecyclerView(startBazaNajblizsze())
+        setActionBar(total)
+        setPref()
+        initAlarm()
+
     }
 
     override fun onResume() {
@@ -85,7 +93,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         initRecyclerView(startBazaNajblizsze())
         setActionBar(total)
         setPref()
-        initAlarm()
+
     }
 
     override fun onDestroy() {
@@ -296,7 +304,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
                 val timePiker = AlarmPiker()
                 timePiker.show(supportFragmentManager, "alarm piker")
-                initAlarm()
 
             }
 

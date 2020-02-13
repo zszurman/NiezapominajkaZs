@@ -10,6 +10,7 @@ class Preferencje(context: Context) {
     private val prefGodz = "Godzina"
     private val prefMin = "Minuta"
 
+
     private val preferencja = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
 
@@ -30,4 +31,6 @@ class Preferencje(context: Context) {
         editor.putInt(prefMin, minuta)
         editor.apply()
     }
+
+
 }

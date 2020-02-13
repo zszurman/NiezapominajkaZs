@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -99,13 +99,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="italic" />
 
             <ImageButton
                 android:id="@+id/placeBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:contentDescription="@string/todo"
@@ -113,8 +113,8 @@
 
             <ImageButton
                 android:id="@+id/editBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:contentDescription="@string/todo"
@@ -122,8 +122,8 @@
 
             <ImageButton
                 android:id="@+id/deleteBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@null"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/ic_action_delete" />

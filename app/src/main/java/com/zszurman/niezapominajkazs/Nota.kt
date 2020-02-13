@@ -7,7 +7,7 @@ import java.util.*
 object Baza {
     fun utworzLista(): ArrayList<Nota> {
         val lista = ArrayList<Nota>()
-        lista.add(Nota(0, "x", "x", "x", 2020, 5, 25))
+        lista.add(Nota(0, "Niezapominajka", "Masz dzisiaj wydarzenie", "x", 2020, 5, 25))
 
         return lista
     }
