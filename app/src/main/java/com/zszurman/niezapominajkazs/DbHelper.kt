@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.provider.BaseColumns
 import android.widget.Toast
+import com.zszurman.niezapominajkazs.MainActivity.Companion.list
+import com.zszurman.niezapominajkazs.MainActivity.Companion.total
 
 object TableInfo : BaseColumns {
 
@@ -40,7 +42,6 @@ object BasicCommand {
     const val deleteTable = "DROP TABLE IF EXISTS " + TableInfo.TABLE_NAME
 }
 
-
 class DbHelper(private val context: Context) :
     SQLiteOpenHelper(context, TableInfo.DATABASE_NAME, null, TableInfo.DATABASE_VERSION) {
 
@@ -59,7 +60,7 @@ class DbHelper(private val context: Context) :
         return db!!.insert(TableInfo.TABLE_NAME, "", values)
     }
 
-    fun qery(
+  fun qery(
         projection: Array<String>,
         selection: String,
         selectionArgs: Array<String>,
@@ -88,6 +89,36 @@ class DbHelper(private val context: Context) :
         db.close()
     }
 
+    fun initListAlfabet(title:String):ArrayList<Nota>{
+        val dbHelper = DbHelper(context)
 
+        fun initRecord(cursor: Cursor) {
+            val nr = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_ID))
+            val tyt = cursor.getString(cursor.getColumnIndex(TableInfo.COL_TYT))
+            val not = cursor.getString(cursor.getColumnIndex(TableInfo.COL_NOT))
+            val adr = cursor.getString(cursor.getColumnIndex(TableInfo.COL_ADR))
+            val r = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_R))
+            val m = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_M))
+            val d = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_D))
+            val x = Nota(nr, tyt, not, adr, r, m, d)
+            list.add(x)
+        }
 
+        val selectionArgs = arrayOf(title)
+        val cursor = dbHelper.qery(
+            MainActivity.projections,
+            TableInfo.COL_TYT + " like ?",
+            selectionArgs,
+            TableInfo.COL_TYT
+        )
+        list.clear()
+
+        if (cursor.moveToFirst()) {
+            do {
+                initRecord(cursor)
+            } while (cursor.moveToNext())
+        }
+        total = list.size
+        return list
+    }
 }

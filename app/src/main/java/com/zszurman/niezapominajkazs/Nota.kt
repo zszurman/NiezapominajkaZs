@@ -11,7 +11,6 @@ object Baza {
 
         return lista
     }
-
 }
 
 class Nota(
@@ -24,10 +23,9 @@ class Nota(
     var d: Int = 1
 
 ) {
-    fun obliczDoAlarmu(): Int {
+    fun obliczDoAlarmu(): Int{
 
         return obliczDDoTerminu() + 365 * obliczLataDoTerminu()
-
     }
 
     fun obliczMillis(): Long {

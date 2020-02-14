@@ -1,6 +1,5 @@
 package com.zszurman.niezapominajkazs
 
-
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -21,8 +20,7 @@ import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bar
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bat
-import com.zszurman.niezapominajkazs.MainActivity.Companion.list
-import com.zszurman.niezapominajkazs.MainActivity.Companion.projections
+import com.zszurman.niezapominajkazs.MainActivity.Companion.dupa
 import kotlinx.android.synthetic.main.row.view.*
 
 class CardViewAdapter(private val context: Context) :
@@ -47,7 +45,6 @@ class CardViewAdapter(private val context: Context) :
         when (holder) {
             is MyViewHolder -> {
                 holder.hold(list[position])
-
             }
         }
     }
@@ -112,58 +109,34 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
             addD = dzien.text.toString().toInt()
             bar = "Aktualizacja danych"
             bat = "Aktualizuj"
+            dupa = 1
+
             val intent = Intent(context, AddNoteActivity::class.java)
             startActivity(context, intent, bundleOf())
         }
 
         delete.setOnClickListener {
 
-
             val id = num.text.toString().toInt()
-
 
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Uwaga")
             builder.setMessage("Chcesz usunąć wydarzenie")
             builder.setPositiveButton("Tak") { _, _ ->
 
-                var selectionArgs = arrayOf(id.toString())
+                val selectionArgs = arrayOf(id.toString())
                 dbHelper.delete(TableInfo.COL_ID + "=?", selectionArgs)
 
-                selectionArgs = arrayOf("%")
-                val cursor = dbHelper.qery(
-                    projections,
-                    TableInfo.COL_TYT + " like ?",
-                    selectionArgs,
-                    TableInfo.COL_TYT
-                )
-                list.clear()
-
-                if (cursor.moveToFirst()) {
-                    do {
-                        val nr = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_ID))
-                        val tyt = cursor.getString(cursor.getColumnIndex(TableInfo.COL_TYT))
-                        val not = cursor.getString(cursor.getColumnIndex(TableInfo.COL_NOT))
-                        val adr = cursor.getString(cursor.getColumnIndex(TableInfo.COL_ADR))
-                        val r = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_R))
-                        val m = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_M))
-                        val d = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_D))
-                        val x = Nota(nr, tyt, not, adr, r, m, d)
-                        list.add(x)
-                    } while (cursor.moveToNext())
-                }
-
-                list.sortWith(Comparator { o1, o2 ->
+                dbHelper.initListAlfabet("%").sortWith(Comparator { o1, o2 ->
                     o1.obliczMillis().compareTo(o2.obliczMillis())
                 })
-                MainActivity.total = list.size
 
                 Toast.makeText(context, "Wydarzenie usunięto", Toast.LENGTH_SHORT)
                     .show()
 
                 MainActivity.adapterNota?.notifyDataSetChanged()
 
-                MainActivity.dupa = 1
+                dupa = 1
                 val intent = Intent(context, MainActivity::class.java)
                 startActivity(context, intent, bundleOf())
 

@@ -1,8 +1,6 @@
 package com.zszurman.niezapominajkazs
 
-
 import android.content.Context
-
 
 class Preferencje(context: Context) {
 
@@ -10,9 +8,7 @@ class Preferencje(context: Context) {
     private val prefGodz = "Godzina"
     private val prefMin = "Minuta"
 
-
     private val preferencja = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-
 
     fun getGodz(): Int {
         return preferencja.getInt(prefGodz, 0)
@@ -31,6 +27,4 @@ class Preferencje(context: Context) {
         editor.putInt(prefMin, minuta)
         editor.apply()
     }
-
-
 }

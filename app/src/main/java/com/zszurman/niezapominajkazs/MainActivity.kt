@@ -3,7 +3,6 @@ package com.zszurman.niezapominajkazs
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -54,13 +53,10 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         if (dupa == 1) finish()
         dupa = 0
 
-
-
         initRecyclerView(startBazaNajblizsze())
         setActionBar(total)
         setPref()
         initAlarm()
-
     }
 
     override fun onResume() {
@@ -68,7 +64,6 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         initRecyclerView(startBazaNajblizsze())
         setActionBar(total)
         setPref()
-
     }
 
     override fun onDestroy() {
@@ -122,9 +117,9 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                 alarmTime = list[number].obliczMillis()
                 alarmWhen = list[number].obliczDoAlarmu()
                 number++
-            } while (alarmTime < System.currentTimeMillis() && number< list.size)
+            } while (alarmTime < System.currentTimeMillis() && number < list.size)
 
-            if ( alarmTime > System.currentTimeMillis()) {
+            if (alarmTime > System.currentTimeMillis()) {
 
                 alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val intentZs = Intent(applicationContext, AlarmReceiver::class.java)
@@ -138,43 +133,10 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         }
     }
 
-    private fun startBaza(title: String): ArrayList<Nota> {
-
-        val dbHelper = DbHelper(this)
-
-        fun initRecord(cursor: Cursor) {
-            val nr = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_ID))
-            val tyt = cursor.getString(cursor.getColumnIndex(TableInfo.COL_TYT))
-            val not = cursor.getString(cursor.getColumnIndex(TableInfo.COL_NOT))
-            val adr = cursor.getString(cursor.getColumnIndex(TableInfo.COL_ADR))
-            val r = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_R))
-            val m = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_M))
-            val d = cursor.getInt(cursor.getColumnIndex(TableInfo.COL_D))
-            val x = Nota(nr, tyt, not, adr, r, m, d)
-            list.add(x)
-        }
-
-        val selectionArgs = arrayOf(title)
-        val cursor = dbHelper.qery(
-            projections,
-            TableInfo.COL_TYT + " like ?",
-            selectionArgs,
-            TableInfo.COL_TYT
-        )
-        list.clear()
-
-        if (cursor.moveToFirst()) {
-            do {
-                initRecord(cursor)
-            } while (cursor.moveToNext())
-        }
-        total = list.size
-        return list
-
-    }
 
     private fun startBazaNajblizsze(): ArrayList<Nota> {
-        startBaza("%").sortWith(Comparator { o1, o2 ->
+        val dbHelper = DbHelper(this)
+        dbHelper.initListAlfabet("%").sortWith(Comparator { o1, o2 ->
             o1.obliczMillis().compareTo(o2.obliczMillis())
         })
 
@@ -191,6 +153,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.main_menu, menu)
+        val dbHelper = DbHelper(this@MainActivity)
 
         val sv: SearchView = menu!!.findItem(R.id.app_bar_search).actionView as SearchView
         val sm = getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -198,12 +161,14 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                initRecyclerView(startBaza("%$query%"))
+
+                initRecyclerView(dbHelper.initListAlfabet("%$query%"))
+
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                initRecyclerView(startBaza("%$newText%"))
+                initRecyclerView(dbHelper.initListAlfabet("%$newText%"))
                 return false
             }
         })
@@ -256,7 +221,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             }
             if (i == 1) {
                 Toast.makeText(this, "Alfabetycznie", Toast.LENGTH_SHORT).show()
-                initRecyclerView(startBaza("%"))
+                initRecyclerView(DbHelper(this@MainActivity).initListAlfabet("%"))
             }
 
             if (i == 2) {
