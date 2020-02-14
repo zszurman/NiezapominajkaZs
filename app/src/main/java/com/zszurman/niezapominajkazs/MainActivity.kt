@@ -190,8 +190,7 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     addD = c[Calendar.DAY_OF_MONTH]
                     bar = "Dodaj wydarzenie"
                     bat = "Dodaj"
-
-                    finish()
+                    dupa = 1
                     val intent = Intent(applicationContext, AddNoteActivity::class.java)
                     startActivity(intent)
 
