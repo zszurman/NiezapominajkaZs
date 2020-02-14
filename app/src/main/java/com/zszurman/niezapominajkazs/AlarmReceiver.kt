@@ -9,7 +9,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.zszurman.niezapominajkazs.MainActivity.Companion.findFirst
+import com.zszurman.niezapominajkazs.MainActivity.Companion.alarmWhen
 import com.zszurman.niezapominajkazs.MainActivity.Companion.list
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -57,7 +57,7 @@ class AlarmReceiver : BroadcastReceiver() {
         var yy: String
 
         while (idData < list.size) {
-            if (list[idData].obliczDoAlarmu() == findFirst()) {
+            if (list[idData].obliczDoAlarmu() == alarmWhen) {
                 xx = list[idData].tytul
                 yy = list[idData].not
                 alarm(context, idData, xx, yy)

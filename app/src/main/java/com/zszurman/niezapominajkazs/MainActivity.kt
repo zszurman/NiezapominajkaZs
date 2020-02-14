@@ -35,41 +35,16 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             TableInfo.COL_ID, TableInfo.COL_TYT, TableInfo.COL_NOT, TableInfo.COL_ADR,
             TableInfo.COL_R, TableInfo.COL_M, TableInfo.COL_D
         )
-        var list: ArrayList<Nota>  = Baza.utworzLista()
-        var total: Int = list.size
+        var list: ArrayList<Nota> = Baza.utworzLista()
+        var total: Int = 1
         var godzina: Int = 8
         var minuta: Int = 0
         var adapterNota: CardViewAdapter? = null
         var dupa: Int = 0
-        fun findFirst(): Int {
+        var alarmWhen: Int = 1
+        var alarmTime: Long = System.currentTimeMillis() - 10000
 
-            var record = list[0].obliczDoAlarmu()
-            fun min(a: Int, b: Int): Int = if (a < b) a else b
-            var number = 0
 
-            while (number < (list.size - 1)) {
-                record = min(record, list[number + 1].obliczDoAlarmu())
-
-                number++
-            }
-
-            return record
-
-        }
-        fun timeM():Long{
-
-            var yy:Long = list[0].nTime(godzina, minuta)
-            var number=0
-            while (number < (list.size - 1)) {
-                if (list[number].obliczDoAlarmu() == findFirst()){
-                    yy = list[number].nTime(godzina,minuta)
-                }
-                number++
-            }
-
-            return yy
-
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,17 +115,26 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
     private fun initAlarm() {
 
-        if (! list.isNullOrEmpty()) {
-            timeM()
-            findFirst()
-            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intentZs = Intent(applicationContext, AlarmReceiver::class.java)
-            alarmIntent = PendingIntent.getBroadcast(applicationContext, 0, intentZs, 0)
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                timeM(),
-                alarmIntent
-            )
+        startBazaNajblizsze()
+        if (!list.isNullOrEmpty()) {
+            var number = 0
+            do {
+                alarmTime = list[number].obliczMillis()
+                alarmWhen = list[number].obliczDoAlarmu()
+                number++
+            } while (alarmTime < System.currentTimeMillis() && number< list.size)
+
+            if ( alarmTime > System.currentTimeMillis()) {
+
+                alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val intentZs = Intent(applicationContext, AlarmReceiver::class.java)
+                alarmIntent = PendingIntent.getBroadcast(applicationContext, 0, intentZs, 0)
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    alarmTime,
+                    alarmIntent
+                )
+            }
         }
     }
 
