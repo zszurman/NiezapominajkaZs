@@ -2,11 +2,13 @@ package com.zszurman.niezapominajkazs
 
 import android.content.Context
 
+
 class Preferencje(context: Context) {
 
     private val prefName = "Preferencja"
     private val prefGodz = "Godzina"
     private val prefMin = "Minuta"
+    private val prefAlarmDay = "Jutro"
 
     private val preferencja = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
@@ -27,4 +29,13 @@ class Preferencje(context: Context) {
         editor.putInt(prefMin, minuta)
         editor.apply()
     }
+    fun getPrefAlarmDay(): Int {
+        return preferencja.getInt(prefAlarmDay, 0)
+    }
+    fun setPrefAlarmDay(dzien: Int) {
+        val editor = preferencja.edit()
+        editor.putInt(prefAlarmDay, dzien)
+        editor.apply()
+    }
+
 }

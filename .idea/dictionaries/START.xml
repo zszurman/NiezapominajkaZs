@@ -4,10 +4,12 @@
       <w>aktualizuj</w>
       <w>alarmu</w>
       <w>alfabet</w>
+      <w>dniu</w>
       <w>dodaj</w>
       <w>dzisiaj</w>
       <w>jutro</w>
       <w>lata</w>
+      <w>milis</w>
       <w>pojutrze</w>
       <w>powiadom</w>
       <w>powiadomienia</w>
@@ -15,6 +17,8 @@
       <w>recykiel</w>
       <w>tytu</w>
       <w>tytuł</w>
+      <w>ustaw</w>
+      <w>wcześniej</w>
       <w>wydarzeniach</w>
     </words>
   </dictionary>

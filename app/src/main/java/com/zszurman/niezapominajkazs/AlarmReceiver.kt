@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.zszurman.niezapominajkazs.MainActivity.Companion.alarmWhen
+import com.zszurman.niezapominajkazs.MainActivity.Companion.alarmDay
 import com.zszurman.niezapominajkazs.MainActivity.Companion.list
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -19,40 +19,40 @@ class AlarmReceiver : BroadcastReceiver() {
     private val description = "Powiadomienia o wydarzeniach"
 
     override fun onReceive(context: Context, intent: Intent?) {
-
         val dbHelper = DbHelper(context)
         dbHelper.initListAlfabet("%")
-        var idData = 0
-
-        while (idData < list.size) {
-            if (list[idData].obliczDoAlarmu() == alarmWhen) {
-                alarm(context, idData)
+        val pref = Preferencje(context)
+        alarmDay = pref.getPrefAlarmDay()
+        var i = 0
+        val d = when(alarmDay){
+            0 -> "Dzisiaj: "
+            1 -> "Jutro: "
+           else ->""
+        }
+        while (i < list.size) {
+            if (list[i].obliczDoAlarmu() == alarmDay) {
+                alarm(context, i, d + list[i].tytul, list[i].not)
             }
-            idData++
+            i++
         }
     }
 
-    private fun alarm(context: Context?, idData: Int) {
-
+    private fun alarm(context: Context?, i: Int, t: String, n: String) {
         val intentZs = Intent(context, MainActivity::class.java)
         val contentIntent = PendingIntent.getActivity(context, 0, intentZs, 0)
-
         notificationManager =
             context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         notificationChannel =
             NotificationCompat.Builder(context, channelId)
-                .setContentTitle(list[idData].tytul)
-                .setContentText(list[idData].not)
+                .setContentTitle(t)
+                .setContentText(n)
                 .setSmallIcon(R.drawable.ic_action_date)
                 .setContentIntent(contentIntent)
-
         val channel =
             NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(channel)
-            notificationManager.notify(idData, notificationChannel.build())
+            notificationManager.notify(i, notificationChannel.build())
         }
     }
 }

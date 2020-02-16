@@ -13,7 +13,6 @@ import com.zszurman.niezapominajkazs.MainActivity.Companion.list
 import com.zszurman.niezapominajkazs.MainActivity.Companion.total
 
 object TableInfo : BaseColumns {
-
     const val DATABASE_NAME = "BazaZs.db"
     const val TABLE_NAME = "Niezapominajka"
     const val COL_ID = "ID"
@@ -23,12 +22,11 @@ object TableInfo : BaseColumns {
     const val COL_R = "Rok"
     const val COL_M = "Miesiac"
     const val COL_D = "Dzien"
-
     const val DATABASE_VERSION = 1
+    val projections = arrayOf(COL_ID, COL_TYT, COL_NOT, COL_ADR, COL_R, COL_M, COL_D)
 }
 
 object BasicCommand {
-
     const val createTable: String =
         "CREATE TABLE IF NOT EXISTS " + TableInfo.TABLE_NAME + " (" +
                 TableInfo.COL_ID + " INTEGER PRIMARY KEY, " +
@@ -38,7 +36,6 @@ object BasicCommand {
                 TableInfo.COL_R + " INTEGER, " +
                 TableInfo.COL_M + " INTEGER, " +
                 TableInfo.COL_D + " INTEGER);"
-
     const val deleteTable = "DROP TABLE IF EXISTS " + TableInfo.TABLE_NAME
 }
 
@@ -60,7 +57,7 @@ class DbHelper(private val context: Context) :
         return db!!.insert(TableInfo.TABLE_NAME, "", values)
     }
 
-  fun qery(
+    private fun xxxxxxxxx(
         projection: Array<String>,
         selection: String,
         selectionArgs: Array<String>,
@@ -77,19 +74,21 @@ class DbHelper(private val context: Context) :
         val db = this.writableDatabase
         return db!!.delete(TableInfo.TABLE_NAME, selection, selectionArgs)
     }
-    fun update(values: ContentValues, selection:String, selectionArgs: Array<String>):Int {
+
+    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int {
 
         val db = this.writableDatabase
 
         return db!!.update(TableInfo.TABLE_NAME, values, selection, selectionArgs)
     }
+
     fun deleteData() {
         val db = this.writableDatabase
         db.delete(TableInfo.TABLE_NAME, null, null)
         db.close()
     }
 
-    fun initListAlfabet(title:String):ArrayList<Nota>{
+    fun initListAlfabet(title: String): ArrayList<Nota> {
         val dbHelper = DbHelper(context)
 
         fun initRecord(cursor: Cursor) {
@@ -105,8 +104,8 @@ class DbHelper(private val context: Context) :
         }
 
         val selectionArgs = arrayOf(title)
-        val cursor = dbHelper.qery(
-            MainActivity.projections,
+        val cursor = dbHelper.xxxxxxxxx(
+            TableInfo.projections,
             TableInfo.COL_TYT + " like ?",
             selectionArgs,
             TableInfo.COL_TYT
