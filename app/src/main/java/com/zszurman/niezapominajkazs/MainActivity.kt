@@ -1,6 +1,7 @@
 package com.zszurman.niezapominajkazs
 
 import android.app.*
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bar
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bat
+import com.zszurman.niezapominajkazs.Harmonogram.listH
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -181,7 +183,14 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         else "alarm dzień wcześniej"
 
         val sortOptions =
-            arrayOf("na osi czasu", "alfabetycznie", "resetuj dane", czas, jutro)
+            arrayOf(
+                "na osi czasu",
+                "alfabetycznie",
+                "resetuj dane",
+                czas,
+                jutro,
+                "dodaj harmonogram"
+            )
         val mBilder = AlertDialog.Builder(this)
         mBilder.setTitle("Wybierz")
         mBilder.setIcon(R.drawable.ic_action_options)
@@ -247,7 +256,25 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     val dialog: AlertDialog = builder.create()
                     dialog.show()
                 }
+                5 -> {
+                    var id = 0
+                    while (id < listH.size) {
+                        if (listH[id].obliczMillis() > System.currentTimeMillis()) {
+                            val values = ContentValues()
+                            values.put(TableInfo.COL_TYT, listH[id].tytul)
+                            values.put(TableInfo.COL_NOT, listH[id].not)
+                            values.put(TableInfo.COL_ADR, listH[id].adres)
+                            values.put(TableInfo.COL_R, listH[id].r)
+                            values.put(TableInfo.COL_M, listH[id].m)
+                            values.put(TableInfo.COL_D, listH[id].d)
+                            dbHelper.insert(values)
+                        }
+                        id++
+                    }
+                    onResume()
+                }
             }
+
             dialogInterface.dismiss()
         }
         val mDialog = mBilder.create()

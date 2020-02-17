@@ -72,7 +72,7 @@ class Nota(
             obliczDoAlarmu() == 0 -> x + "dzisiaj"
             obliczDoAlarmu() == 1 -> x + "jutro"
             obliczDoAlarmu() == 2 -> x + "pojutrze"
-            obliczLataDoTerminu() == 0 -> x + "za" + obliczDDoTerminu().toString() + obDay()
+            obliczLataDoTerminu() == 0 -> x + "za " + obliczDDoTerminu().toString() + obDay()
             obliczLataDoTerminu() > 0 -> x + "za " + obliczLataDoTerminu().toString() + obAlat() + obliczDDoTerminu() + obDay()
             else -> "error"
         }
