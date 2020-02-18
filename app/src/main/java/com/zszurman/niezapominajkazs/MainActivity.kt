@@ -20,7 +20,7 @@ import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addR
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.addTyt
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bar
 import com.zszurman.niezapominajkazs.AddNoteActivity.Companion.bat
-import com.zszurman.niezapominajkazs.Harmonogram.listH
+import com.zszurman.niezapominajkazs.Harmonogram.addHarmonogram
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -186,10 +186,10 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             arrayOf(
                 "na osi czasu",
                 "alfabetycznie",
-                "resetuj dane",
                 czas,
                 jutro,
-                "dodaj harmonogram"
+                "+ harmonogram",
+                "resetuj dane"
             )
         val mBilder = AlertDialog.Builder(this)
         mBilder.setTitle("Wybierz")
@@ -204,32 +204,12 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     Toast.makeText(this, "Alfabetycznie", Toast.LENGTH_SHORT).show()
                     initRecyclerView(dbHelper.initListAlfabet("%"))
                 }
+
                 2 -> {
-                    val builder = AlertDialog.Builder(this@MainActivity)
-                    builder.setTitle("Uwaga")
-                    builder.setMessage("Chcesz zresetować dane")
-                    builder.setPositiveButton("Tak") { _, _ ->
-                        startBazaReset()
-                        onResume()
-                        Toast.makeText(applicationContext, "Zresetowano dane", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    builder.setNegativeButton("Nie") { _, _ ->
-                        Toast.makeText(
-                            applicationContext,
-                            "Nie zresetowano danych",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                    val dialog: AlertDialog = builder.create()
-                    dialog.show()
-                }
-                3 -> {
                     val timePiker = AlarmPiker()
                     timePiker.show(supportFragmentManager, "alarm piker")
                 }
-                4 -> {
+                3 -> {
                     val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle("Ustaw czas alarmu")
                     builder.setMessage("Dzień wcześniej?")
@@ -256,25 +236,68 @@ class MainActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                     val dialog: AlertDialog = builder.create()
                     dialog.show()
                 }
-                5 -> {
-                    var id = 0
-                    while (id < listH.size) {
-                        if (listH[id].obliczMillis() > System.currentTimeMillis()) {
-                            val values = ContentValues()
-                            values.put(TableInfo.COL_TYT, listH[id].tytul)
-                            values.put(TableInfo.COL_NOT, listH[id].not)
-                            values.put(TableInfo.COL_ADR, listH[id].adres)
-                            values.put(TableInfo.COL_R, listH[id].r)
-                            values.put(TableInfo.COL_M, listH[id].m)
-                            values.put(TableInfo.COL_D, listH[id].d)
-                            dbHelper.insert(values)
+                4 -> {
+                    val builder = AlertDialog.Builder(this@MainActivity)
+                    builder.setTitle("Harmonogram")
+                    builder.setMessage("Chcesz dodać?")
+                    builder.setPositiveButton("Tak") { _, _ ->
+                        addHarmonogram(list)
+                        var id = 0
+                        while (id < list.size) {
+                            if (list[id].obliczMillis() > System.currentTimeMillis()) {
+                                val values = ContentValues()
+                                values.put(TableInfo.COL_ID, list[id].nr)
+                                values.put(TableInfo.COL_TYT, list[id].tytul)
+                                values.put(TableInfo.COL_NOT, list[id].not)
+                                values.put(TableInfo.COL_ADR, list[id].adres)
+                                values.put(TableInfo.COL_R, list[id].r)
+                                values.put(TableInfo.COL_M, list[id].m)
+                                values.put(TableInfo.COL_D, list[id].d)
+                                dbHelper.insert(values)
+                            }
+                            id++
                         }
-                        id++
+                        onResume()
+                        Toast.makeText(
+                            applicationContext,
+                            "Dodano harmonogram",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
                     }
-                    onResume()
+                    builder.setNegativeButton("Nie") { _, _ ->
+                        Toast.makeText(
+                            applicationContext,
+                            "Nie dodano harmonogramu",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+                5 -> {
+                    val builder = AlertDialog.Builder(this@MainActivity)
+                    builder.setTitle("Uwaga")
+                    builder.setMessage("Chcesz zresetować dane")
+                    builder.setPositiveButton("Tak") { _, _ ->
+                        startBazaReset()
+                        onResume()
+                        Toast.makeText(applicationContext, "Zresetowano dane", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    builder.setNegativeButton("Nie") { _, _ ->
+                        Toast.makeText(
+                            applicationContext,
+                            "Nie zresetowano danych",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
                 }
             }
-
             dialogInterface.dismiss()
         }
         val mDialog = mBilder.create()

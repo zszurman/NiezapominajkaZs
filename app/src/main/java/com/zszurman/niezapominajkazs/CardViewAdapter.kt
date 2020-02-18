@@ -82,8 +82,10 @@ class MyViewHolder(context: Context, holder: View, dbHelper: DbHelper) :
         addR = nota.r
         addM = nota.m
         addD = nota.d
-        if (adr.text.isNullOrEmpty()) place.visibility = View.INVISIBLE
-        else place.visibility = View.VISIBLE
+        if (adr.text.isNullOrEmpty()) {
+            place.visibility = View.INVISIBLE
+            adr.height = 0
+        }
     }
 
     init {
